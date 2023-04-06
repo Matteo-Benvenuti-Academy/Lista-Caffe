@@ -2,6 +2,7 @@ package com.GestioneCaffe.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,11 @@ public class StudenteService {
 	
 	public StudenteDto insert(StudenteDto stuDto) {
 		
-		Studente stu = repository.findByUniquecode(stuDto.getUniquecode());
+		stuDto.setNumeroCaffe(0);
+		stuDto.setMoltiplicatore(0);
+		stuDto.setUniquecode(UUID.randomUUID().toString());
+
+		Studente stu = mapper.map(stuDto, Studente.class);
 		
 		Studente newStu;
 		

@@ -6,19 +6,48 @@ function loadTable(response){
     for(let [idx, item] of objList.entries()){
         table += `
         <tr>
-            <td>${item.nome}</td>
-            <td>${item.cognome}</td>
+            <td class = "text-center">${item.nome}</td>
+            <td class = "text-center" >${item.cognome}</td>
             
-            <td>
-                <button type="button" class="btn btn-danger" onclick="addCaffe('${item.unicode}',false)">-</button>
-                ${item.numeroCaffe}
-                <button type="button" class="btn btn-danger" onclick="addCaffe('${item.unicode}',true)">+</button>
+            <td class = "text-center">
+                
+                <button type="button" class="btn btn-prymary" onclick="addCaffe('${item.unicode}',false)">
+                    <i class=" d-flex justify-content-center align-items-center fa-solid fa-minus" ></i> 
+                </button>
+                
+                <span class="mx-3" >
+                    ${item.numeroCaffe}
+                </span>
+                
+                <button type="button" class="btn btn-prymary" onclick="addCaffe('${item.unicode}',true)"> 
+                    <i class=" d-flex justify-content-center align-items-center fa-solid fa-plus"></i> 
+                </button>
+
             </td>
 
-            <td>
-                <button type="button" class="btn btn-danger" onclick="addMultiplicator('${item.unicode}'false)">-</button>
-                ${item.moltiplicatore}
-                <button type="button" class="btn btn-danger" onclick="addMultiplicator('${item.unicode}'true)">+</button>
+            <td class = "text-center">
+                <button type="button" class="btn btn-prymary" onclick="addMultiplicator('${item.unicode}'false)">
+                    <i class=" d-flex justify-content-center align-items-center fa-solid fa-minus" ></i>
+                </button>
+                
+                <span class="mx-3" >
+                    ${item.moltiplicatore}
+                </span>
+                
+                <button type="button" class="btn btn-prymary" onclick="addMultiplicator('${item.unicode}'true)"> 
+                    <i class=" d-flex justify-content-center align-items-center fa-solid fa-plus"></i> 
+                </button>
+            </td>
+
+            <td class = "text-center">
+
+            <button type="button" class="btn btn-prymary" onclick="remove('${item.unicode}'false)">
+                <i class= "fa-solid fa-trash" ></i>
+            </button>
+            <button type="button" class="btn btn-prymary" onclick="update('${item.unicode}'true)"> 
+                <i class="fa-solid fa-pencil"></i> 
+            </button>
+
             </td>
 
         </tr>
@@ -28,109 +57,120 @@ function loadTable(response){
     document.getElementById("table").innerHTML = table;
 }
 
-function modifica(varId){
 
-    $.ajax(
-        {
-            url: `http://localhost:8085/studente/${varId}`,
-            type: "GET",
-            success: function(risultato){
 
-                $("#updateNominativo").val(risultato.nominativo)
-                $("#updateMatricola").val(risultato.matricola)
-                $("#exampleModalLabel").text(risultato.matricola)
-                $("#pulsanteModifica").data('id', risultato.id)
+// function modifica(varId){
 
-                $("#exampleModal").modal('show');
-            },
-            error: function(errore){
+//     $.ajax(
+//         {
+//             url: `http://localhost:8085/studente/${varId}`,
+//             type: "GET",
+//             success: function(risultato){
+
+//                 $("#updateNominativo").val(risultato.nominativo)
+//                 $("#updateMatricola").val(risultato.matricola)
+//                 $("#exampleModalLabel").text(risultato.matricola)
+//                 $("#pulsanteModifica").data('id', risultato.id)
+
+//                 $("#exampleModal").modal('show');
+//             },
+//             error: function(errore){
                 
-            }
-        }
-    );
+//             }
+//         }
+//     );
 
-}
+// }
 
-function effettuaModifica(varThis){
-    let id = $(varThis).data('id')
-    let nomi = $("#updateNominativo").val()
-    let matr = $("#updateMatricola").val()
+// function elimina(varId){
+//     $.ajax({
+//         url: `http://localhost:8085/studente/${varId}`,
+//         type: "DELETE",
+//         success: function(risultato){
+//             if(risultato){
+//                 stampa();
+//             }
+//             else
+//                 alert("Errore")
+//         },
+//         error: function(errore){
+//             alert("Errore")
+//         }
+//     });
+// }
 
-    $.ajax(
-        {
-            url: `http://localhost:8085/studente/${id}`,
-            type: "PUT",
-            data: JSON.stringify({
-                nominativo: nomi,
-                matricola: matr
-            }),
-            contentType: "application/json",
-            dataType: 'json',
-            success: function(risultato){
+// function effettuaModifica(varThis){
+//     let id = $(varThis).data('id')
+//     let nomi = $("#updateNominativo").val()
+//     let matr = $("#updateMatricola").val()
 
-                alert("Stappooooooooo")
+//     $.ajax(
+//         {
+//             url: `http://localhost:8085/studente/${id}`,
+//             type: "PUT",
+//             data: JSON.stringify({
+//                 nominativo: nomi,
+//                 matricola: matr
+//             }),
+//             contentType: "application/json",
+//             dataType: 'json',
+//             success: function(risultato){
 
-                $("#exampleModal").modal('hide');
-                stampa()
-            },
-            error: function(errore){
+//                 alert("Stappooooooooo")
+
+//                 $("#exampleModal").modal('hide');
+//                 stampa()
+//             },
+//             error: function(errore){
                 
-                alert("errore")
-            }
-        }
-    );
+//                 alert("errore")
+//             }
+//         }
+//     );
 
-}
+// }
 
-function elimina(varId){
+function insert(){
+    let nome = $("#inputNome").val();
+    let cognome = $("#inputCognome").val();
+    
     $.ajax({
-        url: `http://localhost:8085/studente/${varId}`,
-        type: "DELETE",
-        success: function(risultato){
-            if(risultato){
-                alert("Stappoooooooooooo");
-                stampa();
-            }
-            else
-                alert("Errore")
-        },
-        error: function(errore){
-            alert("Errore")
-        }
-    });
-}
-
-
-
-function inserisci(){
-    let nomi = $("#inputNominativo").val();
-    let matr = $("#inputMatricola").val();
-
-    $.ajax({
-        url: "http://localhost:8085/studente",
+        url: "http://localhost:8080/ListaCaffe",
         type: "POST",
         data: JSON.stringify({
-            nominativo: nomi,
-            matricola: matr
+            nome: nome,
+            cognome: cognome
         }),
         contentType: "application/json",
         dataType: 'json',
-        success: function(risultato){
-            if(risultato){
-                alert("Stappoooooooooooo");
-                stampa();
+        success: function(response){
+            let status = response.status
+            if(status === "ok"){
+                $("#errorBanner").css('display', 'none');
+                $("#inputNome").val("");
+                $("#inputCognome").val("");
+                $("#exampleModal").modal('hide');
+                refresh();
             }
-            else
-                alert("Errore")
+            else{
+                $("#errorBanner").text("Inserimento non riuscito!");
+                $("#errorBanner").css('display', 'block');
+            }
+                
         },
         error: function(errore){
-            alert("Errore")
+            console.log(errore)
+            $("#errorBanner").val("Errore! Riprova");
+            $("#errorBanner").css('display', 'block');
         }
     })
 }
 
-function stampa(){
+function showInsertModal(){
+    $("#exampleModal").modal('show');
+}
 
+function refresh(){
     $.ajax(
         {
             url: "http://localhost:8080/ListaCaffe",
@@ -144,18 +184,19 @@ function stampa(){
             }
         }
     )
-
 }
-
 
 $(document).ready(
     function(){
     
-        $("#updateButton").click(() => {
-            inserisci();
+        $("#insertButton").click(() => {
+            startInsert();
         })
+        
+        refresh();
 
-        stampa();
-
+        // setInterval(() => {
+        //     refresh();
+        // },1000)
     }
 )

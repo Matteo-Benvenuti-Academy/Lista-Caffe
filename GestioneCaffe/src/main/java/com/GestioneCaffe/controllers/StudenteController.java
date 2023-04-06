@@ -52,6 +52,12 @@ public class StudenteController {
 	@PostMapping
 	public Response insert(@RequestBody StudenteDto studente) {
 		
+		if(studente == null || studente.getNome().isBlank() || studente.getCognome().isBlank())
+			return new Response("ko");
+
+		studente.setNome(studente.getNome().trim());
+		studente.setCognome(studente.getCognome().trim());
+
 		StudenteDto stu = service.insert(studente);
 		
 		if(stu == null)
