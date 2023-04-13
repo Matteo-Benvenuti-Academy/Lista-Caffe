@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
     <script src="script.js"></script>
@@ -45,7 +46,7 @@
     </div>
 
     <!-- Modal Insert -->
-    <div class="modal fade text-dark" id="exampleModal" tabindex="-1" role="dialog">
+    <div class="modal fade text-dark" id="insertModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -55,7 +56,7 @@
             </button>
             </div>
             <div class="modal-body">
-                <div class="alert alert-danger" id="errorBanner" style="display : none;"></div>
+                <div class="alert alert-danger" id="insertErrorBanner" style="display : none;"></div>
                 <div class="form-group">
                     <label for="inputNome">Nome</label>
                     <input type="text" id="inputNome" class="form-control" placeholder="Inserisci il nome"/>
@@ -70,6 +71,43 @@
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
             <button type="button" class="btn btn-primary" onclick="insert()">Salva</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+    <!-- Modal Update -->
+    <div class="modal fade text-dark" id="updateModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Modifica</h5>
+            <button type="button" class="close" data-dismiss="modal">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" id="updateErrorBanner" style="display : none;"></div>
+                <div class="form-group">
+                    <label for="inputNome">Nome</label>
+                    <input type="text" id="updateNome" class="form-control" placeholder="Inserisci il nome"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputCognome">Cognome</label>
+                    <input type="text" id="updateCognome" class="form-control" placeholder="Inserisci il cognome"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputCognome">Codice</label>
+                    <input type="text" id="updateCodice" class="form-control" disabled/>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+            <button type="button" class="btn btn-primary" onclick="update(this)" id="modalUpdateButton">Salva</button>
             </div>
         </div>
         </div>

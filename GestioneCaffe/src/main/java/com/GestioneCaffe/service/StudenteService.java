@@ -53,7 +53,7 @@ public class StudenteService {
 	public StudenteDto insert(StudenteDto stuDto) {
 		
 		stuDto.setNumeroCaffe(0);
-		stuDto.setMoltiplicatore(0);
+		stuDto.setMoltiplicatore(1);
 		stuDto.setUniquecode(UUID.randomUUID().toString());
 
 		Studente stu = mapper.map(stuDto, Studente.class);
@@ -74,15 +74,13 @@ public class StudenteService {
 	
 	@Transactional
 	public StudenteDto update(String uniquecode, StudenteDto stuDto) {
-		Studente stu = repository.findByUniquecode(stuDto.getUniquecode());
+		Studente stu = repository.findByUniquecode(uniquecode);
 		
 		if(stu == null)
 			return null;
 		
 		stu.setNome(stuDto.getNome());
 		stu.setCognome(stuDto.getCognome());
-		stu.setNumeroCaffe(stuDto.getNumeroCaffe());
-		stu.setMoltiplicatore(stuDto.getMoltiplicatore());
 		
 		
 		Studente newStu;
@@ -122,7 +120,7 @@ public class StudenteService {
 			return false;
 		
 		stu.setNumeroCaffe(stu.getNumeroCaffe() + stu.getMoltiplicatore());
-		stu.setMoltiplicatore(0);
+		stu.setMoltiplicatore(1);
 		
 		Studente newStu;
 		try {
@@ -164,7 +162,8 @@ public class StudenteService {
 		if(stu == null)
 			return false;
 		
-		stu.setMoltiplicatore(stu.getMoltiplicatore()-1);
+		int multiplier = stu.getMoltiplicatore()-1;
+		stu.setMoltiplicatore(multiplier>0 ? multiplier:1);
 		
 		Studente newStu;
 		try {
@@ -185,7 +184,8 @@ public class StudenteService {
 		if(stu == null)
 			return false;
 		
-		stu.setNumeroCaffe(stu.getNumeroCaffe()-1);
+		int coffee = stu.getNumeroCaffe()-1;
+		stu.setNumeroCaffe(coffee>=0 ? coffee:0);
 		
 		Studente newStu;
 		try {

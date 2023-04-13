@@ -20,7 +20,7 @@ import com.GestioneCaffe.service.StudenteService;
 
 
 @RestController
-@RequestMapping("ListaCaffe")
+@RequestMapping("listacaffe")
 @CrossOrigin("*")
 public class StudenteController {
 	
@@ -68,6 +68,13 @@ public class StudenteController {
 	
 	@PutMapping("/{uniquecode}")
 	public Response update(@PathVariable String uniquecode, @RequestBody StudenteDto studente) {
+		
+		if(studente == null || studente.getNome().isBlank() || studente.getCognome().isBlank())
+			return new Response("ko");
+		
+		studente.setNome(studente.getNome().trim());
+		studente.setCognome(studente.getCognome().trim());
+		
 		StudenteDto stu = service.update(uniquecode,studente);
 		
 		if(stu == null)
@@ -78,7 +85,7 @@ public class StudenteController {
 	
 	@DeleteMapping("/{uniquecode}")
 	public Response delete(@PathVariable String uniquecode) {
-		if(service.delete(uniquecode))
+		if(!service.delete(uniquecode))
 			return new Response("ko");
 		
 		return new Response("ok");
@@ -87,7 +94,7 @@ public class StudenteController {
 	
 	@GetMapping("coffee/add/{uniquecode}")
 	public Response addCoffee(@PathVariable String uniquecode) {
-		if(service.addCoffee(uniquecode))
+		if(!service.addCoffee(uniquecode))
 			return new Response("ko");
 		
 		return new Response("ok");
@@ -95,7 +102,7 @@ public class StudenteController {
 	
 	@GetMapping("coffee/remove/{uniquecode}")
 	public Response removeCoffee(@PathVariable String uniquecode) {
-		if(service.removeCoffee(uniquecode))
+		if(!service.removeCoffee(uniquecode))
 			return new Response("ko");
 		
 		return new Response("ok");
@@ -103,7 +110,7 @@ public class StudenteController {
 	
 	@GetMapping("multiplier/add/{uniquecode}")
 	public Response addMultiplier(@PathVariable String uniquecode) {
-		if(service.addMultiplier(uniquecode))
+		if(!service.addMultiplier(uniquecode))
 			return new Response("ko");
 		
 		return new Response("ok");
@@ -111,7 +118,7 @@ public class StudenteController {
 	
 	@GetMapping("multiplier/remove/{uniquecode}")
 	public Response removeMultiplier(@PathVariable String uniquecode) {
-		if(service.removeMultiplier(uniquecode))
+		if(!service.removeMultiplier(uniquecode))
 			return new Response("ko");
 		
 		return new Response("ok");
